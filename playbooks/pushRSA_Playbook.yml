@@ -1,0 +1,11 @@
+---
+- name: Add a user's SSH key to managed nodes
+  hosts: control   # 👈 change this to your target group
+  become: yes
+  tasks:
+    - name: Add my public key to the 'root' user's authorized_keys file
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+

@@ -1,0 +1,40 @@
+---
+- name: Patch CentOS servers
+  hosts: mns
+  become: yes
+  tasks:
+    - name: Ensure all packages are up to date
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Reboot if needed
+      reboot:
+        msg: "Reboot initiated by Ansible after patching"
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+      when: ansible_facts['os_family'] == "RedHat"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      

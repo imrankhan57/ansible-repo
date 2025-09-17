@@ -1,0 +1,23 @@
+---
+- name: Copy script to managed nodes and execute
+    hosts: all
+    become: yes
+    vars:
+        script_src: /root/superuser.sh
+        script_dest: /tmp/script.sh
+
+    tasks:
+        - name: Copy script to managed node
+            copy:
+                src: "{{ script_src }}"
+                dest: "{{ script_dest }}"
+                mode: '0755'
+
+        - name: Execute script on managed node
+            command: "{{ script_dest }}"
+            register: script_output
+            ignore_errors: yes 
+        - name: Display script output
+            debug:
+                var: script_output.stdout
+

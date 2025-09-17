@@ -1,0 +1,33 @@
+---
+- name: Create ansible user with passwordless sudo
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure passlib is installed on control machine
+      ansible.builtin.pip:
+        name: passlib
+      delegate_to: localhost
+      run_once: true
+
+    - name: Create ansible user
+      ansible.builtin.user:
+        name: ansible
+        password: "{{ 'khans' | password_hash('sha512') }}"
+        groups: wheel        # use 'sudo' instead of 'wheel' if Ubuntu/Debian
+        append: yes
+        shell: /bin/bash
+
+    - name: Allow ansible user passwordless sudo
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/ansible
+        content: "ansible ALL=(ALL) NOPASSWD:ALL\n"
+        owner: root
+        group: root
+        mode: '0440'
+
+    - name: Set up SSH authorized key for ansible
+      ansible.builtin.authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+

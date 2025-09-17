@@ -1,0 +1,14 @@
+- name: Disable SELinux on CentOS
+  hosts: all
+  become: yes
+  tasks:
+    - name: Set SELINUX=disabled in /etc/selinux/config
+      lineinfile:
+        path: /etc/selinux/config
+        regexp: '^SELINUX='
+        line: 'SELINUX=disabled'
+
+    - name: Disable SELinux immediately
+      command: setenforce 0
+      when: ansible_selinux.status == "enabled"
+      ignore_errors: yes
