@@ -1,23 +1,13 @@
-usage: awx [--help] [--version] [--conf.host https://example.awx.org]
-           [--conf.token TEXT] [--conf.username TEXT] [--conf.password TEXT]
-           [-k] [-f {json,yaml,jq,human}] [--filter TEXT]
-           [--conf.color BOOLEAN] [-v]
-
-optional arguments:
-  --help                prints usage information for the awx tool
-  --version             display awx CLI version
-
-authentication:
-  --conf.host https://example.awx.org
-  --conf.token TEXT     an OAuth2.0 token (get one by using `awx login`)
-  --conf.username TEXT
-  --conf.password TEXT
-  -k, --conf.insecure   Allow insecure server connections when using SSL
-
-input/output formatting:
-  -f {json,yaml,jq,human}, --conf.format {json,yaml,jq,human}
-                        specify a format for the input and output
-  --filter TEXT         specify an output filter (only valid with jq or human
-                        format)
-  --conf.color BOOLEAN  Display colorized output. Defaults to True
-  -v, --verbose         print debug-level logs, including requests made
+[app]
+mn1
+mn2
+[db]
+mn3
+[control]
+centos
+[win]
+192.168.1.51
+[mns]
+mn1
+mn2
+mn3
